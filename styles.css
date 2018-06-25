@@ -1,0 +1,128 @@
+body {
+  font-family: "Source Sans Pro";
+}
+
+section {
+  margin-bottom: 48px;
+}
+
+section:last-child {
+  margin-bottom: 240px;
+}
+
+h1, h2, h3 {
+  font-family: "Dosis";
+  font-weight: bold;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 72px;
+  margin: 16px auto 0 auto;
+}
+
+.header h2 {
+  margin: 8px auto;
+}
+
+.links {
+  max-width: 270px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.links table {
+  width: 100%;
+}
+
+.links a {
+  text-decoration: none;
+  color: blue;
+}
+
+.links a:hover {
+  color: #add8e6;
+}
+
+.subheader {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 24px;
+}
+
+/* Instructors */
+
+.instructors {
+  max-width: 750px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.instructors table {
+  width: 100%;
+}
+
+.instructors td {
+  vertical-align: top;
+}
+
+.instructors td > div {
+  float: left;
+  min-width: 120px;
+  margin-bottom: 24px;
+}
+
+.instructors img {
+  border-radius: 50%;
+  width: 80px;
+  margin: auto;
+}
+
+.schedule {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.schedule table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule tr {
+  border-bottom: 1px solid #888;
+}
+
+.schedule th, .schedule td {
+  text-align: left;
+  vertical-align: top;
+  padding: 16px 16px;
+}
+
+.schedule th:first-child {
+  width: 15%;
+}
+
+.schedule th:nth-child(2) {
+  width: 10%;
+}
+
+.schedule th:nth-child(3) {
+  width: 45%;
+}
+
+.schedule th:nth-child(4) {
+  width: 30%;
+}
+
+.course-logistics, .course-description, .policies, .latex {
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+.office-hours {
+  max-width: 800px;
+  margin: 0 auto;
+}
