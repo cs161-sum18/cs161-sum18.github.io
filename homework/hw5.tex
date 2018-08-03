@@ -1,0 +1,205 @@
+\documentclass{article}
+\usepackage{fullpage,graphicx}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,multirow,xcolor}
+\usepackage{algorithmic}
+\usepackage[ruled,vlined,commentsnumbered,titlenotnumbered]{algorithm2e}
+\usepackage{minted}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.10}
+\usetikzlibrary{shapes.geometric,arrows,fit,matrix,positioning}
+\tikzset
+{
+  treenode/.style = {circle, draw=black, align=center, minimum size=1cm},
+  subtree/.style  = {isosceles triangle, draw=black, align=center, minimum height=0.5cm, minimum width=1cm, shape border rotate=90, anchor=north}
+}
+
+\begin{document}
+\noindent
+CS 161 \hfill \textbf{Homework 5} \newline 
+Summer 2018 \hfill \textbf{Due:} Thursday 8/10 at 5 p.m. on Gradescope
+
+\noindent\rule{\linewidth}{0.4pt}
+
+\section*{Exercises}
+
+Exercises should be completed \textbf{on your own}.
+
+\noindent\rule{\linewidth}{1.0pt}
+
+\begin{enumerate}
+  \item \textbf{(Warmup with MSTs)} \textbf{(7 pt.)}
+
+    In all of the following questions, assume that $G$ is an undirected,
+    connected graph on $n$ nodes with distinct, positive edge weights. Also
+    assume that $G$ is simple (no self-loops and no multi-edges) in all parts.
+
+    You might find the following ``cycle property'' useful and can reference it
+    without proof (although you might want to convince yourself of it!): The
+    most expensive edge on any cycle does not belong to MST (when edge weights
+    are distinct).
+    
+    \begin{enumerate}
+      \item \textbf{(1 pt.)} Consider the edges of $G$ sorted in increasing
+        order of weight and place the first $n-1$ edges into a set $S$. In
+        other words, $S$ is the set of $n-1$ edges with the smallest weights.
+    
+        Prove or disprove: $S$ is a minimum spanning tree in $G$ (assume
+        $n \geq 2$).
+    
+        \textbf{[We are expecting: Either a formal proof or a counterexample.]}
+    \item \textbf{(2 pt.)} Prove or disprove: There is a unique minimum
+      spanning tree in $G$.
+    
+        \textbf{[We are expecting: Either a formal proof or a counterexample.]}
+    \item \textbf{(4 pt.)} Let $T$ be a minimum spanning tree of $G$ and $e$
+      be some edge in $G$ (which may or may not belong to $T$). Suppose we
+      obtain a new graph $G'$ from $G$ by preserving everything the same except
+      that we decrease the weight of $e$ (but assume that the weights of all
+      edges in $G'$ are still distinct). Design an algorithm that can find a
+      minimum spanning tree $T'$ of $G'$ in $O(|V|)$-time, given $G$, $T$, $e$
+      and its newly decreased weight $w$. Prove the correctness and analyze the
+      runtime.
+    
+      \textbf{[We are expecting: An English description of the algorithm, and
+      brief justification of its runtime.]}
+    \end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\section*{Problems}
+
+You can collaborate with your classmates about the problems. However:
+
+\begin{itemize}
+  \item Try the problems on your own \textit{before} collaborating.
+  \item Write up your solutions yourself, in your own words.  You should never
+    share your typed-up solutions with your collaborators.
+  \item If you collaborated, list the names of the students you collaborated
+    with at the beginning of each problem.
+\end{itemize}
+
+\noindent\rule{\linewidth}{1.0pt}
+
+\begin{enumerate}
+  \item \textbf{(k-friendliness)} \textbf{(4 pt.)}
+
+    Suppose you model the friendships of students in CS 161 as an undirected
+    graph $G = (V,E)$ (i.e. there is an edge between students A and B if they
+    are friends). For any integer $k$, we say that a group of students,
+    $S \subset V$, is ``$k$-friendly'' if every student in $S$ has at least $k$
+    friends in $S$. Design an $O(|V|+|E|)$-time algorithm which, given the graph
+    $G$ and an integer $k > 0$, finds the largest set $S \subset V$ that is
+    $k$-friendly; if no such set exists, then the algorithm should say so.
+  
+    [\textbf{We are expecting: An English description of the algorithm and
+    brief justification of its runtime.}]
+  
+  \item \textbf{(Placing receivers)} \textbf{(11 pt.)}
+
+    Suppose there are $n$ transmitters fixed in place along a linear track.
+    The $i$'th transmitter has communication range $[a_i, b_i]$, for
+    $a_i \leq b_i$: that is, any receiver placed within the range $[a_i, b_i]$
+    can receive signals from the $i$'th transmitter. Assume that the
+    transmitters are sorted by the right endpoint of their communication range:
+    that is, if $i < j$, then $b_i \leq b_j$.
+
+    We want to pick a set of points on the track to place receivers such that
+    we can receive signals from every transmitter while minimizing the number
+    of receivers necessary. In other words, we want to find a minimum set of
+    points $S$ on the line such that for every transmitter $i$, there is some
+    receiver $s \in S$ such that $a_i \leq s \leq b_i$. 
+
+    In this problem, we describe a \textbf{greedy algorithm} that finds the
+    minimum set $S$ of receiver locations in expected time $O(n)$, and prove
+    that it is correct.
+
+    Suppose the greedy algorithm which works as follows: we place receivers
+    one at a time. At each step, suppose that $i^*$ is the smallest $i$ so that
+    transmitter $i$ cannot be heard by any receiver placed so far, and place a
+    receiver at $b_{i^*}$. Continue placing receivers in this way until all the
+    transmitters can be heard.
+
+    \begin{enumerate}
+      \item \textbf{(2 pt.)} Based on this English description, write
+        pseudocode to implement the algorithm in time $O(n)$. Assume the input
+        to your algorithm is two arrays, $a$, and $b$, which contain the values
+        of $a_i$ and $b_i$ in the order described above.
+
+        \textbf{[We are expecting detailed pseudocode, and an informal
+        justification of the running time.]}
+
+      \item \textbf{(9 pt.)} Prove that this algorithm is correct (in terms of
+        both legality and optimality), following the outline below.
+
+        We recommend induction on $t$, using a greedy stays ahead or greedy
+        exchange argument.
+
+        \begin{enumerate}
+          \item \textbf{(3 pt.)} State your inductive hypothesis.
+          \item \textbf{(1 pt.)} Prove the base case.
+          \item \textbf{(4 pt.)} Prove the inductive step. 
+          \item \textbf{(1 pt.)} Finish the argument: once the induction
+            argument is complete, show that this implies that the algorithm is
+            correct.
+        \end{enumerate}
+
+        \textbf{[We are expecting: For (i), a statement of an inductive
+          hypothesis. For (ii), (iii), (iv), we are expecting a formal proof,
+          including a statement of what it is you are proving.]}
+    \end{enumerate}
+  \item \textbf{(Min Gradespan)} \textbf{(4 pt.)}
+
+    An analog of the following problem arises when you are trying to assign
+    jobs to servers; while the greedy algorithm will not be optimal, it comes
+    pretty close.
+
+    Suppose the course staff has $n$ exams to grade, and there are $k$ course
+    assistants (CAs) who will be doing the grading. We can all tell the exact
+    amount of time it will take to grade a given exam (from glancing at the
+    handwriting and text density), and all the CAs would take this exact amount
+    of time to grade that exam. I want to divide the set of $n$ exams among the
+    CAs so as to minimize the maximum amount of time it will take any of the
+    CAs to grade (i.e. we will all wait until the last CA is done grading their
+    pile, and I want to minimize the total time from when we all start grading,
+    until this last CA is done.)
+
+    Suppose I start with the stack of exams, and want to divide the exams into
+    the $k$ stacks by stepping through the pile of exams just once---namely,
+    when I look at the $i^{\text{th}}$ exam, I will immediately know how long
+    it takes to grade, and then assign it to one of the $k$ CA piles. Suppose I
+    do this by keeping track of the total grading time of each stack, and
+    assigning the next exam to the stack that currently has the shortest
+    grading time.
+    \begin{enumerate}
+      \item \textbf{(1 pt.)} Describe a concrete instance of this problem
+        involving $n=3$ exams and $k=2$ CAs that illustrates that this
+        algorithm will not always result in the optimal allocation.
+
+        Specifically, give a list of the three grading times such that the
+        greedy algorithm will result in one of the two CAs spending longer than
+        necessary, and describe both the optimal allocation of the exams to the
+        two piles, and the allocation that the greedy algorithm will choose.
+
+        \textbf{[We are expecting: An example.]}
+      \item \textbf{(3 pt.)} Prove that the allocation given by the greedy
+        algorithm will be suboptimal by \emph{at most} a factor of 2. Namely,
+        if there exists an allocation of the $n$ exams into $k$ piles such that
+        all CAs can finish grading within time $t_{opt},$ prove that in the
+        allocation chosen by the greedy algorithm, the maximum time will be at
+        most $2\cdot t_{opt}.$ [Hint: what can you say about the amount of
+        grading time that the longest-working CA would have had, if the last
+        exam did not exist?]
+
+        \textbf{[We are expecting: A formal proof.]}
+\item (0 points, Food for thought) How much can you improve this factor-of-two ratio of greedy and opt (i.e. this factor of 2 ``competitive ratio'' of the greedy algorithm) if you sort the exams in decreasing order of grading time before running the greedy algorithm?\\
+\textbf{[We are not expecting anything.]}
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
